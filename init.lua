@@ -116,37 +116,28 @@ require("lazy").setup({
     },
   },
 
-  -- Treesitter (guarded so first boot can't brick)
-  {
-    "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    build = ":TSUpdate",
-    config = function()
-      local ok, configs = pcall(require, "nvim-treesitter.configs")
-      if not ok then
-        return
-      end
-      configs.setup({
-        ensure_installed = {
-          "lua",
-          "vim",
-          "vimdoc",
-          "typescript",
-          "tsx",
-          "javascript",
-          "rust",
-          "json",
-          "yaml",
-          "toml",
-          "bash",
-          "markdown",
-          "markdown_inline",
-        },
-        highlight = { enable = true },
-        indent = { enable = true },
-      })
-    end,
-  },
+ {
+  "nvim-treesitter/nvim-treesitter",
+  branch = "main",
+  lazy = false,
+  build = ":TSUpdate",
+  config = function()
+    require("nvim-treesitter").install({
+      "lua", "vim", "vimdoc",
+      "typescript", "tsx", "javascript",
+      "rust", "json", "yaml", "toml",
+      "bash", "markdown", "markdown_inline",
+    })
+
+    -- Highlight: main has no `highlight = { enable = true }`.
+    -- Start treesitter per-buffer wherever a parser exists; silently no-op otherwise.
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+      end,
+    })
+  end,
+},
 
   -- Mason (installs LSP binaries)
   { "mason-org/mason.nvim", opts = {} },
