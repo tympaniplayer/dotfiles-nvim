@@ -8,7 +8,7 @@ vim.g.maplocalleader = " "
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.termguicolors = true
+vim.opt.termguicolors = false 
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 vim.opt.wrap = false
@@ -21,7 +21,7 @@ vim.opt.timeoutlen = 400
 vim.opt.scrolloff = 8
 vim.opt.clipboard = "unnamedplus"
 vim.opt.completeopt = { "menuone", "noselect" }
-
+vim.cmd.colorscheme("default")
 ------------------------------------------------------------
 -- Global keymaps
 ------------------------------------------------------------
@@ -86,37 +86,7 @@ end
 -- Plugins
 ------------------------------------------------------------
 require("lazy").setup({
-  -- Theme
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup({ flavour = "mocha" })
-      vim.cmd.colorscheme("catppuccin")
-    end,
-  },
-
-  -- which-key (leader helper)
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {
-      preset = "modern",
-      spec = {
-        { "<leader>s", group = "Search" },
-        { "<leader>h", group = "Harpoon" },
-        { "<leader>c", group = "Code" },
-        { "<leader>g", group = "Git" },
-      },
-    },
-  },
-
- {
+   {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   lazy = false,
@@ -341,7 +311,6 @@ require("lazy").setup({
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local actions = require("telescope.actions")
@@ -403,4 +372,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank({ timeout = 200 })
   end,
 })
-
