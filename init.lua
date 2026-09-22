@@ -95,7 +95,11 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({ flavour = "mocha" })
+      require("catppuccin").setup({
+        flavour = "mocha",
+        -- Let the terminal's own background (foot: alpha=0.7) show through.
+        transparent_background = true,
+      })
       vim.cmd.colorscheme("catppuccin")
     end,
   },
