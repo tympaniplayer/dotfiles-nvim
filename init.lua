@@ -72,13 +72,16 @@ vim.opt.rtp:prepend(lazypath)
 ------------------------------------------------------------
 -- Helpers (LSP root)
 ------------------------------------------------------------
+-- Native vim.lsp.config passes (bufnr, on_dir) and ignores the return value;
+-- the root must be handed back by calling on_dir().
 local function root_with(patterns)
-  return function(bufnr)
+  return function(bufnr, on_dir)
     local fname = vim.api.nvim_buf_get_name(bufnr)
     if fname == "" then
-      return vim.loop.cwd()
+      on_dir(vim.uv.cwd())
+      return
     end
-    return vim.fs.root(fname, patterns) or vim.loop.cwd()
+    on_dir(vim.fs.root(fname, patterns) or vim.uv.cwd())
   end
 end
 
