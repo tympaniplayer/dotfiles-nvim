@@ -348,7 +348,7 @@ require("lazy").setup({
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    -- master, not 0.1.x: 0.1.x calls nvim-treesitter's removed ft_to_lang (breaks previews with treesitter `main`)
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local actions = require("telescope.actions")
